@@ -1,21 +1,23 @@
-# AI Platform V2 Starter
+# AI Platform V3 Starter
 
-A local AI engineering starter kit designed for:
-- Ollama + Qwen 3.5
+A stronger local AI engineering scaffold with:
+- Ollama + Qwen 3.5 for local chat
+- Qdrant vector store
 - FastAPI API layer
-- Qdrant vector database
-- MLflow experiment/eval logging
-- LangGraph agent scaffolding
-- Docker Compose local orchestration
-
-## Included
-- `/chat` endpoint wired to Ollama
-- `/embed` endpoint
-- `/ingest` endpoint for simple text/markdown ingestion
-- `/rag/answer` endpoint
+- MLflow logging
 - LangGraph agent skeleton
-- basic MLflow logging
-- Qdrant collection bootstrap
+- file and repo ingestion
+- optional reranking hook
+- Docker Compose for local orchestration
+
+## Features
+- `/chat` local chat endpoint
+- `/embed` embeddings endpoint
+- `/ingest/texts` raw text ingestion
+- `/ingest/path` directory and repo ingestion
+- `/rag/answer` retrieval-augmented answering
+- `/agent/run` LangGraph agent skeleton
+- smoke tests and example documents
 
 ## Quick start
 
@@ -24,38 +26,42 @@ cp .env.example .env
 docker compose up -d --build
 ```
 
-Pull a model on the host if needed:
+Pull models on the host:
 
 ```bash
 ollama pull qwen3.5:9b
 ollama pull nomic-embed-text
 ```
 
-Health check:
-
+Optional reranker model for later:
 ```bash
-curl http://localhost:8000/health
+ollama pull bge-reranker-v2-m3
 ```
 
-Chat:
+## Suggested usage
 
+1. Ingest bundled docs:
 ```bash
-curl -X POST http://localhost:8000/chat \
+curl -X POST http://localhost:8000/ingest/path \
   -H "Content-Type: application/json" \
-  -d '{"message":"Explain what this platform does."}'
+  -d '{"path":"/app/data/examples","source":"examples"}'
 ```
 
-RAG answer:
-
+2. Ask a grounded question:
 ```bash
 curl -X POST http://localhost:8000/rag/answer \
   -H "Content-Type: application/json" \
-  -d '{"question":"What does this platform include?"}'
+  -d '{"question":"What is Qdrant used for?","top_k":5}'
 ```
 
-## Suggested next steps
-1. Replace the simple chunker with a better document pipeline.
-2. Add reranking.
-3. Add tests for retrieval quality.
-4. Add repo-aware code ingestion.
-5. Add human approval steps to the agent graph.
+3. Run the simple agent:
+```bash
+curl -X POST http://localhost:8000/agent/run \
+  -H "Content-Type: application/json" \
+  -d '{"task":"Summarize the platform architecture and suggest the next improvement."}'
+```
+
+## Notes
+- PDF support is included via `pypdf`.
+- The reranker is optional and currently implemented as a hook. The default path works without it.
+- Code/repo ingestion is conservative by default and skips noisy/generated files.

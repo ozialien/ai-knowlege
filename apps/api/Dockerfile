@@ -9,6 +9,8 @@ COPY apps/api /app/apps/api
 COPY rag /app/rag
 COPY agents /app/agents
 COPY data /app/data
+COPY tests /app/tests
+COPY docs /app/docs
 
 ENV PYTHONPATH=/app
 CMD ["uvicorn", "apps.api.main:app", "--host", "0.0.0.0", "--port", "8000"]

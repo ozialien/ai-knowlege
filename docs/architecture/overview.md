@@ -5,8 +5,14 @@ Open WebUI -> FastAPI -> Ollama
                     -> MLflow
                     -> LangGraph
 
+## Ingestion
+- raw text ingestion
+- file path and directory ingestion
+- code and markdown ingestion
+- PDF extraction using pypdf
+
 ## Near-term extensions
-- add markdown/pdf loaders
-- add reranking
-- add code repository ingestion
-- add approval gates to agent flow
+- add reranker implementation
+- add repo symbol extraction
+- add source citations in answer formatting
+- add eval datasets and regression tests

@@ -13,6 +13,10 @@ ps:
 api-shell:
 	docker compose exec api /bin/bash
 
-pull-models:
-	ollama pull qwen3.5:9b
-	ollama pull nomic-embed-text
+test:
+	docker compose exec api pytest -q
+
+ingest-examples:
+	curl -X POST http://localhost:8000/ingest/path \
+	  -H "Content-Type: application/json" \
+	  -d '{"path":"/app/data/examples","source":"examples"}'

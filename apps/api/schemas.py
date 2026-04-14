@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List, Optional
 
 class ChatRequest(BaseModel):
@@ -18,9 +18,13 @@ class IngestRequest(BaseModel):
     texts: List[str]
     source: Optional[str] = "manual"
 
+class PathIngestRequest(BaseModel):
+    path: str = Field(..., description="Directory or file path accessible inside the API container")
+    source: Optional[str] = "path"
+
 class RAGRequest(BaseModel):
     question: str
-    top_k: int = 4
+    top_k: int = 5
 
 class RAGResponse(BaseModel):
     answer: str

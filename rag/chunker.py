@@ -1,7 +1,11 @@
-def simple_chunk_text(text: str, chunk_size: int = 800, overlap: int = 100) -> list[str]:
+from apps.api.config import settings
+
+def simple_chunk_text(text: str, chunk_size: int | None = None, overlap: int | None = None) -> list[str]:
     text = text.strip()
     if not text:
         return []
+    chunk_size = chunk_size or settings.max_chunk_size
+    overlap = overlap or settings.chunk_overlap
     chunks = []
     start = 0
     while start < len(text):
