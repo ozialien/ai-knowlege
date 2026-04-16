@@ -13,11 +13,12 @@ class Settings(BaseModel):
     ollama_rerank_model: str = os.getenv("OLLAMA_RERANK_MODEL", "")
     qdrant_url: str = os.getenv("QDRANT_URL", "http://localhost:6333")
     qdrant_collection: str = os.getenv("QDRANT_COLLECTION", "docs")
-    mlflow_tracking_uri: str = os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000")
+    mlflow_tracking_uri: str = os.getenv("MLFLOW_TRACKING_URI", "http://mlflow:5000")
     app_env: str = os.getenv("APP_ENV", "dev")
     max_chunk_size: int = int(os.getenv("MAX_CHUNK_SIZE", "900"))
     chunk_overlap: int = int(os.getenv("CHUNK_OVERLAP", "120"))
     retrieval_default_top_k: int = int(os.getenv("RETRIEVAL_DEFAULT_TOP_K", "5"))
     enable_rerank: bool = _as_bool(os.getenv("ENABLE_RERANK"), False)
+    langgraph_thread_id: str = os.getenv("LANGGRAPH_THREAD_ID", "demo-thread")
 
 settings = Settings()

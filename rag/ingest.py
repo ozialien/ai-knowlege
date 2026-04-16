@@ -3,10 +3,10 @@ from rag.chunker import simple_chunk_text
 from rag.file_loaders import iter_ingestible_files, extract_text_from_file
 
 def prepare_texts(texts: list[str]) -> list[str]:
-    output = []
+    out = []
     for text in texts:
-        output.extend(simple_chunk_text(text))
-    return output
+        out.extend(simple_chunk_text(text))
+    return out
 
 def prepare_path(path: str) -> list[dict]:
     records = []

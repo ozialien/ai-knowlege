@@ -29,16 +29,12 @@ def load_json_file(path: Path) -> str:
 
 def load_pdf_file(path: Path) -> str:
     reader = PdfReader(str(path))
-    pages = []
-    for page in reader.pages:
-        pages.append(page.extract_text() or "")
-    return "\n".join(pages)
+    return "\n".join(page.extract_text() or "" for page in reader.pages)
 
 def extract_text_from_file(path: Path) -> str:
-    suffix = path.suffix.lower()
-    if suffix == ".pdf":
+    if path.suffix.lower() == ".pdf":
         return load_pdf_file(path)
-    if suffix == ".json":
+    if path.suffix.lower() == ".json":
         return load_json_file(path)
     return load_text_file(path)
 

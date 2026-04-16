@@ -1,29 +1,19 @@
-# AI Platform V3 Starter
+# AI Platform V4 Podman Starter
 
-A stronger local AI engineering scaffold with:
-- Ollama + Qwen 3.5 for local chat
-- Qdrant vector store
+Podman-first local AI platform scaffold with:
+- Qwen 3.5 via Ollama
+- Open WebUI
 - FastAPI API layer
+- Qdrant vector store
 - MLflow logging
-- LangGraph agent skeleton
-- file and repo ingestion
-- optional reranking hook
-- Docker Compose for local orchestration
-
-## Features
-- `/chat` local chat endpoint
-- `/embed` embeddings endpoint
-- `/ingest/texts` raw text ingestion
-- `/ingest/path` directory and repo ingestion
-- `/rag/answer` retrieval-augmented answering
-- `/agent/run` LangGraph agent skeleton
-- smoke tests and example documents
+- LangGraph with a checkpointer scaffold
+- source-aware RAG citations
 
 ## Quick start
 
 ```bash
 cp .env.example .env
-docker compose up -d --build
+podman-compose up -d --build
 ```
 
 Pull models on the host:
@@ -33,35 +23,41 @@ ollama pull qwen3.5:9b
 ollama pull nomic-embed-text
 ```
 
-Optional reranker model for later:
+Optional:
 ```bash
 ollama pull bge-reranker-v2-m3
 ```
 
-## Suggested usage
+## First use
 
-1. Ingest bundled docs:
+Ingest examples:
+
 ```bash
 curl -X POST http://localhost:8000/ingest/path \
   -H "Content-Type: application/json" \
   -d '{"path":"/app/data/examples","source":"examples"}'
 ```
 
-2. Ask a grounded question:
+Ask a cited question:
+
 ```bash
 curl -X POST http://localhost:8000/rag/answer \
   -H "Content-Type: application/json" \
   -d '{"question":"What is Qdrant used for?","top_k":5}'
 ```
 
-3. Run the simple agent:
+Run agent:
+
 ```bash
 curl -X POST http://localhost:8000/agent/run \
   -H "Content-Type: application/json" \
-  -d '{"task":"Summarize the platform architecture and suggest the next improvement."}'
+  -d '{"task":"Summarize the architecture and suggest the next improvement."}'
 ```
 
+Open WebUI:
+- http://localhost:3000
+
 ## Notes
-- PDF support is included via `pypdf`.
-- The reranker is optional and currently implemented as a hook. The default path works without it.
-- Code/repo ingestion is conservative by default and skips noisy/generated files.
+- The LangGraph checkpointer in this starter is in-memory. It gives you graph checkpoint plumbing but not cross-restart persistence yet.
+- Reranking is still a hook, not a finished implementation.
+- This repo is meant to evolve cleanly into MCP and multi-agent versions.

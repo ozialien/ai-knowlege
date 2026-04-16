@@ -27,9 +27,6 @@ async def embed(texts: list[str]) -> list[list[float]]:
     return results
 
 async def rerank(query: str, documents: list[str]) -> list[str]:
-    # Hook for future reranker integration.
-    # Default behavior keeps original order when reranking is disabled or unavailable.
     if not settings.enable_rerank or not settings.ollama_rerank_model or not documents:
         return documents
-    # Placeholder behavior so the scaffold remains runnable without assuming endpoint specifics.
     return documents

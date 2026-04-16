@@ -5,14 +5,14 @@ Open WebUI -> FastAPI -> Ollama
                     -> MLflow
                     -> LangGraph
 
-## Ingestion
-- raw text ingestion
-- file path and directory ingestion
-- code and markdown ingestion
-- PDF extraction using pypdf
+## Included in V4
+- path and file ingestion
+- source-aware citations in RAG responses
+- in-memory LangGraph checkpoint plumbing
+- Podman-first compose file
+- Open WebUI service
 
-## Near-term extensions
-- add reranker implementation
-- add repo symbol extraction
-- add source citations in answer formatting
-- add eval datasets and regression tests
+## Next
+- real reranker
+- persistent checkpointer
+- MCP tool server

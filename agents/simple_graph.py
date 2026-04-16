@@ -1,5 +1,6 @@
 from typing import TypedDict
 from langgraph.graph import StateGraph, END
+from langgraph.checkpoint.memory import MemorySaver
 from apps.api.ollama_client import chat
 
 class AgentState(TypedDict):
@@ -8,15 +9,13 @@ class AgentState(TypedDict):
     answer: str
 
 async def planner(state: AgentState) -> AgentState:
-    plan = await chat(f"Create a short plan for this task: {state['task']}")
-    state["plan"] = plan
+    state["plan"] = await chat(f"Create a short plan for this task: {state['task']}")
     return state
 
 async def responder(state: AgentState) -> AgentState:
-    answer = await chat(
+    state["answer"] = await chat(
         f"Task: {state['task']}\nPlan: {state['plan']}\nProvide a concise useful answer."
     )
-    state["answer"] = answer
     return state
 
 def build_graph():
@@ -26,4 +25,5 @@ def build_graph():
     graph.set_entry_point("planner")
     graph.add_edge("planner", "responder")
     graph.add_edge("responder", END)
-    return graph.compile()
+    checkpointer = MemorySaver()
+    return graph.compile(checkpointer=checkpointer)

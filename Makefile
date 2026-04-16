@@ -1,20 +1,20 @@
 up:
-	docker compose up -d --build
+	podman-compose up -d --build
 
 down:
-	docker compose down
+	podman-compose down
 
 logs:
-	docker compose logs -f
+	podman-compose logs -f
 
 ps:
-	docker compose ps
+	podman-compose ps
 
 api-shell:
-	docker compose exec api /bin/bash
+	podman-compose exec api /bin/bash
 
 test:
-	docker compose exec api pytest -q
+	podman-compose exec api pytest -q
 
 ingest-examples:
 	curl -X POST http://localhost:8000/ingest/path \
