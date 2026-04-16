@@ -9,7 +9,7 @@ Podman-first local AI platform scaffold with:
 - LangGraph with a checkpointer scaffold
 - source-aware RAG citations
 
-## Quick start
+## Intent
 
 ```bash
 cp .env.example .env
